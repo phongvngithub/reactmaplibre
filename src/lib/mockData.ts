@@ -20,6 +20,27 @@ export interface Property {
   description: string;
 }
 
+export interface PropertyPin {
+  id: string;
+  coordinates: [number, number];
+  location: string;
+  properties: Property[];
+}
+
+export interface NominatimResult {
+  place_id: number;
+  licence: string;
+  osm_type: string;
+  osm_id: number;
+  boundingbox: string[];
+  lat: string;
+  lon: string;
+  display_name: string;
+  class: string;
+  type: string;
+  importance: number;
+}
+
 export const mockProperties: Property[] = [
   // North America
   {
@@ -42,6 +63,48 @@ export const mockProperties: Property[] = [
       isSuperhost: true
     },
     description: 'Beautiful apartment in the heart of Manhattan with stunning city views.'
+  },
+  {
+    id: '1a',
+    title: 'Luxury Manhattan Penthouse',
+    location: 'Manhattan, New York',
+    coordinates: [-74.006, 40.7128], // Same coordinates as property 1
+    price: 450,
+    rating: 4.9,
+    reviewCount: 89,
+    image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop',
+    type: 'apartment',
+    bedrooms: 3,
+    bathrooms: 2,
+    guests: 6,
+    amenities: ['WiFi', 'Kitchen', 'City views', 'Concierge', 'Gym', 'Rooftop'],
+    host: {
+      name: 'Michael Chen',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
+      isSuperhost: true
+    },
+    description: 'Stunning penthouse with panoramic Manhattan skyline views and luxury amenities.'
+  },
+  {
+    id: '1b',
+    title: 'Manhattan Studio Loft',
+    location: 'Manhattan, New York',
+    coordinates: [-74.006, 40.7128], // Same coordinates as property 1
+    price: 95,
+    rating: 4.6,
+    reviewCount: 156,
+    image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop',
+    type: 'apartment',
+    bedrooms: 1,
+    bathrooms: 1,
+    guests: 2,
+    amenities: ['WiFi', 'Kitchen', 'Modern design', 'City views'],
+    host: {
+      name: 'Emma Wilson',
+      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face',
+      isSuperhost: false
+    },
+    description: 'Stylish studio loft perfect for solo travelers or couples exploring NYC.'
   },
   {
     id: '2',
@@ -191,6 +254,27 @@ export const mockProperties: Property[] = [
       isSuperhost: false
     },
     description: 'Authentic Parisian experience in the historic Le Marais district.'
+  },
+  {
+    id: '8a',
+    title: 'Elegant Parisian Suite',
+    location: 'Le Marais, Paris',
+    coordinates: [2.3522, 48.8566], // Same coordinates as property 8
+    price: 280,
+    rating: 4.8,
+    reviewCount: 134,
+    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&h=300&fit=crop',
+    type: 'apartment',
+    bedrooms: 2,
+    bathrooms: 2,
+    guests: 4,
+    amenities: ['WiFi', 'Kitchen', 'Balcony', 'Historic building', 'Luxury furnishing'],
+    host: {
+      name: 'Pierre Laurent',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
+      isSuperhost: true
+    },
+    description: 'Luxurious suite in a beautifully restored 17th-century building in Le Marais.'
   },
   {
     id: '9',

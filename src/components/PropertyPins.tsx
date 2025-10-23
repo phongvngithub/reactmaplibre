@@ -1,28 +1,57 @@
-import { Property } from '../lib/mockData';
+import { Property, PropertyPin } from '../lib/mockData';
 import { Marker, Popup } from '@vis.gl/react-maplibre';
 
 interface PropertyPinsProps {
-  properties: Property[];
+  pins: PropertyPin[];
   selectedProperty: Property | null;
   onPropertySelect: (property: Property) => void;
+  onPinManage: (pin: PropertyPin) => void;
 }
 
-export default function PropertyPins({ properties, selectedProperty, onPropertySelect }: PropertyPinsProps) {
+export default function PropertyPins({ pins, selectedProperty, onPropertySelect, onPinManage }: PropertyPinsProps) {
   return (
     <>
-      {properties.map((property) => (
-        <Marker
-          key={property.id}
-          longitude={property.coordinates[0]}
-          latitude={property.coordinates[1]}
-          onClick={() => onPropertySelect(property)}
-        >
-          <div className={`property-marker ${selectedProperty?.id === property.id ? 'selected' : ''}`}>
-            <div className="marker-price">${property.price}</div>
-            <div className="marker-dot"></div>
-          </div>
-        </Marker>
-      ))}
+      {pins.map((pin) => {
+        const mainProperty = pin.properties[0];
+        const propertyCount = pin.properties.length;
+        const isSelected = selectedProperty && pin.properties.some(p => p.id === selectedProperty.id);
+        
+        if (!mainProperty) return null;
+
+        return (
+          <Marker
+            key={pin.id}
+            longitude={pin.coordinates[0]}
+            latitude={pin.coordinates[1]}
+            onClick={(e: any) => {
+              e.originalEvent.stopPropagation();
+              if (propertyCount === 1) {
+                onPropertySelect(mainProperty);
+              } else {
+                onPinManage(pin);
+              }
+            }}
+          >
+            <div className={`property-marker ${isSelected ? 'selected' : ''} ${propertyCount > 1 ? 'multiple' : ''}`}>
+              <div className="marker-price">
+                {propertyCount > 1 ? (
+                  <span className="property-count">{propertyCount}</span>
+                ) : (
+                  `$${mainProperty.price}`
+                )}
+              </div>
+              <div className="marker-dot"></div>
+              {propertyCount > 1 && (
+                <div className="manage-icon" title="Manage properties">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                  </svg>
+                </div>
+              )}
+            </div>
+          </Marker>
+        );
+      })}
       
       {selectedProperty && (
         <Popup
